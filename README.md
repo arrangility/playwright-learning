@@ -1,43 +1,45 @@
 # Playwright Learning
 
-Playwright E2Eテストのサンプル集（TypeScript & Java）
+A collection of Playwright E2E test samples (TypeScript & Java)
 
-## プロジェクト構成
+[日本語版はこちら / Japanese Version](README.ja.md)
+
+## Project Structure
 
 ```
 playwright-learning/
-├── docs/                    # ドキュメント
+├── docs/                    # Documentation
 │   ├── playwright-typescript-vs-java.md
 │   ├── playwright-vs-selenium.md
 │   └── getbyrole-limitations.md
 └── packages/
-    ├── ts-basic/            # TypeScript基本テスト
-    ├── ts-bdd/              # TypeScript BDDテスト
+    ├── ts-basic/            # TypeScript basic tests
+    ├── ts-bdd/              # TypeScript BDD tests
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
-    ├── java-basic/          # Java基本テスト
+    ├── java-basic/          # Java basic tests
     └── java-pom-bdd/        # Java BDD + Page Object Model
 ```
 
-## セットアップ
+## Setup
 
 ```bash
-# 依存関係インストール（TypeScript全体）
+# Install dependencies (TypeScript)
 npm install
 
-# Playwrightブラウザインストール
+# Install Playwright browsers
 npx playwright install
 ```
 
-## テスト実行
+## Running Tests
 
-### TypeScript - 基本テスト
+### TypeScript - Basic Tests
 
 ```bash
 cd packages/ts-basic
 npx playwright test
 ```
 
-### TypeScript - BDDテスト
+### TypeScript - BDD Tests
 
 ```bash
 cd packages/ts-bdd
@@ -53,7 +55,7 @@ npm install
 npm run test
 ```
 
-### Java - 基本テスト
+### Java - Basic Tests
 
 ```bash
 cd packages/java-basic
@@ -67,71 +69,70 @@ cd packages/java-pom-bdd
 mvn test
 ```
 
-## 各パッケージの説明
+## Package Descriptions
 
 ### ts-basic
-- 基本的なPlaywrightテスト
-- ロールベースロケーター使用
-- ARIA Snapshot検証
+- Basic Playwright tests
+- Role-based locators
+- ARIA Snapshot validation
 
 ### ts-bdd
-- BDD形式のテスト（Gherkin記法）
-- playwright-bdd使用
-- Feature/Stepファイル構成
+- BDD-style tests (Gherkin syntax)
+- Using playwright-bdd
+- Feature/Step file structure
 
 ### ts-pom-bdd
-- BDD + Page Object Model パターン
-- [ShopTodo](https://toasagi.github.io/shoptodo-app/)を対象とした実践的サンプル
-- 23シナリオ（ログイン、カタログ、カート、言語切替）
-- 詳細は [ts-pom-bdd/README.md](packages/ts-pom-bdd/README.md) を参照
+- BDD + Page Object Model pattern
+- Practical samples targeting [ShopTodo](https://toasagi.github.io/shoptodo-app/)
+- 23 scenarios (login, catalog, cart, language switching)
+- See [ts-pom-bdd/README.md](packages/ts-pom-bdd/README.md) for details
 
 ### java-basic
-- Java + JUnit5によるテスト
-- Maven構成
-- ARIA Snapshot検証（v1.49+）
+- Java + JUnit5 tests
+- Maven configuration
+- ARIA Snapshot validation (v1.49+)
 
 ### java-pom-bdd
-- Cucumber + Playwright Java によるBDDテスト
-- Page Object Model パターン
-- [ShopTodo](https://toasagi.github.io/shoptodo-app/)を対象（ts-pom-bddと同じ）
-- 23シナリオ（ログイン、カタログ、カート、言語切替）
-- 詳細は [java-pom-bdd/README.md](packages/java-pom-bdd/README.md) を参照
+- Cucumber + Playwright Java BDD tests
+- Page Object Model pattern
+- Same target as ts-pom-bdd: [ShopTodo](https://toasagi.github.io/shoptodo-app/)
+- 23 scenarios (login, catalog, cart, language switching)
+- See [java-pom-bdd/README.md](packages/java-pom-bdd/README.md) for details
 
-## ARIA Snapshotとは
+## What is ARIA Snapshot?
 
-ブラウザのアクセシビリティツリーをYAML形式で表現したものです。
+A YAML representation of the browser's accessibility tree.
 
-### 特徴
+### Features
 
-| 特性 | 説明 |
-|------|------|
-| 決定論的 | 同じページなら常に同じ構造を返す |
-| トークン効率 | スクリーンショット比で70-80%削減 |
-| 軽量 | テキストベースで処理が軽い |
-| 意味的 | role、name、stateが明確 |
+| Property | Description |
+|----------|-------------|
+| Deterministic | Always returns the same structure for the same page |
+| Token Efficient | 70-80% reduction compared to screenshots |
+| Lightweight | Text-based, easy to process |
+| Semantic | Clear role, name, and state |
 
-### 従来のセレクタとの比較
+### Comparison with Traditional Selectors
 
 ```typescript
-// 従来: CSSセレクタ（脆弱）
+// Traditional: CSS selector (fragile)
 await page.click('.nav-menu > li:nth-child(3) > a');
 
-// ロールベース（推奨）
+// Role-based (recommended)
 await page.getByRole('link', { name: 'Blog' }).click();
 
-// ARIA Snapshot: 構造全体を検証
+// ARIA Snapshot: Validate entire structure
 await expect(nav).toMatchAriaSnapshot(`...`);
 ```
 
-## ドキュメント
+## Documentation
 
-- [TypeScript vs Java比較](docs/playwright-typescript-vs-java.md)
-- [Playwright vs Selenium比較](docs/playwright-vs-selenium.md)
-- [getByRole()の制限と対処法](docs/getbyrole-limitations.md)
+- [TypeScript vs Java Comparison](docs/playwright-typescript-vs-java.md)
+- [Playwright vs Selenium Comparison](docs/playwright-vs-selenium.md)
+- [getByRole() Limitations and Workarounds](docs/getbyrole-limitations.md)
 
-## 参考リンク
+## References
 
-- [Playwright公式ドキュメント](https://playwright.dev/)
+- [Playwright Official Documentation](https://playwright.dev/)
 - [Playwright for Java](https://playwright.dev/java/)
 - [playwright-bdd](https://github.com/vitalets/playwright-bdd)
-- [ARIA Snapshotの解説記事](https://zenn.dev/nossa/articles/8d90efd840934f)
