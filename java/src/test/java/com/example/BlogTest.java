@@ -95,4 +95,27 @@ public class BlogTest {
         assertThat(blogLink).isVisible();
         assertThat(blogLink).hasAttribute("href", "/blog");
     }
+
+    @Test
+    @DisplayName("ナビゲーションの構造をARIA Snapshotで検証")
+    void shouldMatchNavigationAriaSnapshot() {
+        page.navigate("https://www.arrangility.com/");
+
+        // ナビゲーションのリスト構造をARIA Snapshotで検証
+        Locator nav = page.getByRole(AriaRole.NAVIGATION,
+            new Page.GetByRoleOptions().setName("Main"));
+        Locator navList = nav.getByRole(AriaRole.LIST).first();
+
+        // ARIA Snapshotでナビゲーション順序を検証
+        assertThat(navList).matchesAriaSnapshot("""
+            - list:
+              - listitem:
+                - link "Home"
+              - listitem: Services
+              - listitem:
+                - link "Blog"
+              - listitem:
+                - link "Company"
+            """);
+    }
 }
