@@ -1,0 +1,14 @@
+{
+  "name": "playwright-learning",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E testing examples - TypeScript & Java",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test:ts-basic": "npm run test --workspace=packages/ts-basic",
+    "test:ts-bdd": "npm run test --workspace=packages/ts-bdd",
+    "test:all": "npm run test:ts-basic && npm run test:ts-bdd"
+  }
+}

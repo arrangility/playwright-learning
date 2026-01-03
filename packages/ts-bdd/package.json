@@ -1,0 +1,14 @@
+{
+  "name": "ts-bdd",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "bddgen && playwright test",
+    "test:headed": "bddgen && playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "playwright-bdd": "^7.0.0",
+    "typescript": "^5.3.0"
+  }
+}
