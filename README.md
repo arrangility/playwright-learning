@@ -14,7 +14,8 @@ playwright-learning/
     ├── ts-basic/            # TypeScript基本テスト
     ├── ts-bdd/              # TypeScript BDDテスト
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
-    └── java-basic/          # Java基本テスト
+    ├── java-basic/          # Java基本テスト
+    └── java-pom-bdd/        # Java BDD + Page Object Model
 ```
 
 ## セットアップ
@@ -52,10 +53,17 @@ npm install
 npm run test
 ```
 
-### Java
+### Java - 基本テスト
 
 ```bash
 cd packages/java-basic
+mvn test
+```
+
+### Java - BDD + Page Object Model
+
+```bash
+cd packages/java-pom-bdd
 mvn test
 ```
 
@@ -81,6 +89,13 @@ mvn test
 - Java + JUnit5によるテスト
 - Maven構成
 - ARIA Snapshot検証（v1.49+）
+
+### java-pom-bdd
+- Cucumber + Playwright Java によるBDDテスト
+- Page Object Model パターン
+- [ShopTodo](https://toasagi.github.io/shoptodo-app/)を対象（ts-pom-bddと同じ）
+- 23シナリオ（ログイン、カタログ、カート、言語切替）
+- 詳細は [java-pom-bdd/README.md](packages/java-pom-bdd/README.md) を参照
 
 ## ARIA Snapshotとは
 
