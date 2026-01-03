@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('順序・階層の変化を検出できるか確認', () => {
+test.describe('ナビゲーション構造の検証', () => {
 
-  test('【成功】正しい順序: Home → Services → Blog → Company', async ({ page }) => {
+  test('メインナビゲーションの順序: Home → Services → Blog → Company', async ({ page }) => {
     await page.goto('https://www.arrangility.com/');
     const nav = page.getByRole('navigation', { name: 'Main' });
 
-    // 正しい順序
+    // 正しい順序を検証
     await expect(nav.getByRole('list').first()).toMatchAriaSnapshot(`
       - list:
         - listitem:
@@ -19,44 +19,30 @@ test.describe('順序・階層の変化を検出できるか確認', () => {
     `);
   });
 
-  test('【失敗予定】間違った順序: Home → Services → Company → Blog', async ({ page }) => {
+  test('フッターのリンク構造を検証', async ({ page }) => {
     await page.goto('https://www.arrangility.com/');
-    const nav = page.getByRole('navigation', { name: 'Main' });
+    const footer = page.getByRole('contentinfo');
 
-    // BlogとCompanyの順序を入れ替え（実際と異なる）
-    await expect(nav.getByRole('list').first()).toMatchAriaSnapshot(`
-      - list:
-        - listitem:
-          - link "Home"
-        - listitem: Services
-        - listitem:
-          - link "Company"
-        - listitem:
-          - link "Blog"
-    `);
+    // フッターにリンクが存在することを確認
+    await expect(footer.getByRole('link', { name: 'Home' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'About Us' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Services' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Blog' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Contact Us' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Privacy Policy' })).toBeVisible();
   });
 
-  test('【失敗予定】間違った階層: Servicesがサブメニューを持つ', async ({ page }) => {
+  test('ページ見出しの階層構造を検証', async ({ page }) => {
     await page.goto('https://www.arrangility.com/');
-    const nav = page.getByRole('navigation', { name: 'Main' });
 
-    // Servicesに階層を追加（実際と異なる）
-    await expect(nav.getByRole('list').first()).toMatchAriaSnapshot(`
-      - list:
-        - listitem:
-          - link "Home"
-        - listitem:
-          - link "Services"
-          - list:
-            - listitem:
-              - link "Consulting"
-            - listitem:
-              - link "Development"
-        - listitem:
-          - link "Blog"
-        - listitem:
-          - link "Company"
-    `);
+    // h1見出しが1つ存在することを確認
+    const h1 = page.getByRole('heading', { level: 1 });
+    await expect(h1).toHaveCount(1);
+    await expect(h1).toContainText('ARRANGILITY');
+
+    // h2見出しが複数存在することを確認
+    const h2 = page.getByRole('heading', { level: 2 });
+    await expect(h2.first()).toBeVisible();
   });
 
 });
