@@ -12,7 +12,7 @@ export default defineConfig({
   expect: {
     timeout: 10000,
   },
-  workers: 1,
+  workers: 4,
   reporter: [['html'], ['list']],
   use: {
     baseURL: 'https://toasagi.github.io/shoptodo-app/',
