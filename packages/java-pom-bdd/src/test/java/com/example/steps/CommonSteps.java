@@ -14,35 +14,35 @@ public class CommonSteps {
 
     @Given("ShopTodoのホームページを開く")
     public void openHomePage() {
-        BrowserHooks.page.navigate("https://toasagi.github.io/shoptodo-app/");
-        BrowserHooks.page.waitForLoadState();
-        BrowserHooks.page.waitForSelector("button:has-text(\"カートに追加\")",
+        BrowserHooks.getPage().navigate("https://toasagi.github.io/shoptodo-app/");
+        BrowserHooks.getPage().waitForLoadState();
+        BrowserHooks.getPage().waitForSelector("button:has-text(\"カートに追加\")",
                 new com.microsoft.playwright.Page.WaitForSelectorOptions().setTimeout(10000));
     }
 
     @When("英語に切り替える")
     public void switchToEnglish() {
-        HeaderComponent header = new HeaderComponent(BrowserHooks.page);
+        HeaderComponent header = new HeaderComponent(BrowserHooks.getPage());
         header.switchToEnglish();
-        BrowserHooks.page.waitForTimeout(300);
+        BrowserHooks.getPage().waitForTimeout(300);
     }
 
     @When("日本語に切り替える")
     public void switchToJapanese() {
-        HeaderComponent header = new HeaderComponent(BrowserHooks.page);
+        HeaderComponent header = new HeaderComponent(BrowserHooks.getPage());
         header.switchToJapanese();
-        BrowserHooks.page.waitForTimeout(300);
+        BrowserHooks.getPage().waitForTimeout(300);
     }
 
     @Then("ページが英語で表示される")
     public void verifyEnglishPage() {
-        var englishElements = BrowserHooks.page.getByText(Pattern.compile("Login|Product|Cart|Checkout"));
+        var englishElements = BrowserHooks.getPage().getByText(Pattern.compile("Login|Product|Cart|Checkout"));
         assertThat(englishElements.first().isVisible()).isTrue();
     }
 
     @Then("ページが日本語で表示される")
     public void verifyJapanesePage() {
-        var japaneseElements = BrowserHooks.page.getByText(Pattern.compile("ログイン|商品|カート"));
+        var japaneseElements = BrowserHooks.getPage().getByText(Pattern.compile("ログイン|商品|カート"));
         assertThat(japaneseElements.first().isVisible()).isTrue();
     }
 }
