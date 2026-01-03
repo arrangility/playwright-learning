@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
