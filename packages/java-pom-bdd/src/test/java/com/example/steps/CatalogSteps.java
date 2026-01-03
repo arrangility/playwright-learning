@@ -11,82 +11,82 @@ public class CatalogSteps {
 
     @Then("商品が表示される")
     public void verifyProductsDisplayed() {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.getProductCount()).isGreaterThan(0);
     }
 
     @When("{string}カテゴリでフィルタする")
     public void filterByCategory(String category) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         catalogPage.filterByCategory(category);
-        BrowserHooks.page.waitForTimeout(500);
+        BrowserHooks.getPage().waitForTimeout(500);
     }
 
     @Then("商品が{int}件以上表示される")
     public void verifyProductCountGreaterThan(int minCount) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.getProductCount()).isGreaterThanOrEqualTo(minCount);
     }
 
     @When("{string}で検索する")
     public void searchForProduct(String keyword) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         catalogPage.searchProduct(keyword);
     }
 
     @Then("{string}が検索結果に表示される")
     public void verifyProductInSearchResults(String productName) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.isProductVisible(productName)).isTrue();
     }
 
     @Then("検索結果が0件である")
     public void verifyNoSearchResults() {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.getProductCount()).isZero();
     }
 
     @Then("商品が0件表示される")
     public void verifyZeroProducts() {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.getProductCount()).isZero();
     }
 
     @When("{string}でソートする")
     public void sortBy(String option) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         catalogPage.sortBy(option);
-        BrowserHooks.page.waitForTimeout(300);
+        BrowserHooks.getPage().waitForTimeout(300);
     }
 
     @Then("商品が並び替えられる")
     public void verifyProductsSorted() {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.getProductCount()).isGreaterThan(0);
     }
 
     @Then("商品が価格の安い順に並ぶ")
     public void verifyProductsSortedByPriceAsc() {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.isSortedByPriceAsc()).isTrue();
     }
 
     @When("{string}タブをクリックする")
     public void clickCategoryTab(String category) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         catalogPage.clickCategoryTab(category);
-        BrowserHooks.page.waitForTimeout(300);
+        BrowserHooks.getPage().waitForTimeout(300);
     }
 
     @Then("商品カテゴリのタブが表示される")
     public void verifyCategoryTabsVisible() {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.areCategoryTabsVisible()).isTrue();
     }
 
     @Then("検索結果に{string}が表示される")
     public void verifyProductInResults(String productName) {
-        CatalogPage catalogPage = new CatalogPage(BrowserHooks.page);
+        CatalogPage catalogPage = new CatalogPage(BrowserHooks.getPage());
         assertThat(catalogPage.isProductVisible(productName)).isTrue();
     }
 }
