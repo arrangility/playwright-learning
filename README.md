@@ -13,6 +13,7 @@ playwright-learning/
 └── packages/
     ├── ts-basic/            # TypeScript基本テスト
     ├── ts-bdd/              # TypeScript BDDテスト
+    ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
     └── java-basic/          # Java基本テスト
 ```
 
@@ -43,6 +44,14 @@ npm install
 npm run test
 ```
 
+### TypeScript - BDD + Page Object Model
+
+```bash
+cd packages/ts-pom-bdd
+npm install
+npm run test
+```
+
 ### Java
 
 ```bash
@@ -61,6 +70,12 @@ mvn test
 - BDD形式のテスト（Gherkin記法）
 - playwright-bdd使用
 - Feature/Stepファイル構成
+
+### ts-pom-bdd
+- BDD + Page Object Model パターン
+- [ShopTodo](https://toasagi.github.io/shoptodo-app/)を対象とした実践的サンプル
+- 23シナリオ（ログイン、カタログ、カート、言語切替）
+- 詳細は [ts-pom-bdd/README.md](packages/ts-pom-bdd/README.md) を参照
 
 ### java-basic
 - Java + JUnit5によるテスト
