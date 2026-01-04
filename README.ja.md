@@ -14,6 +14,7 @@ playwright-learning/
     ├── ts-basic/            # TypeScript基本テスト
     ├── ts-bdd/              # TypeScript BDDテスト
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
+    ├── ts-api/              # TypeScript APIテスト（REST & GraphQL）
     ├── java-basic/          # Java基本テスト
     └── java-pom-bdd/        # Java BDD + Page Object Model
 ```
@@ -53,6 +54,14 @@ npm install
 npm run test
 ```
 
+### TypeScript - APIテスト
+
+```bash
+cd packages/ts-api
+npm install
+npm test
+```
+
 ### Java - 基本テスト
 
 ```bash
@@ -84,6 +93,13 @@ mvn test
 - [ShopTodo](https://toasagi.github.io/shoptodo-app/)を対象とした実践的サンプル
 - 23シナリオ（ログイン、カタログ、カート、言語切替）
 - 詳細は [ts-pom-bdd/README.md](packages/ts-pom-bdd/README.md) を参照
+
+### ts-api
+- REST API テスト（JSONPlaceholder使用）
+- GraphQL テスト（Countries API使用）
+- Playwright request コンテキスト使用
+- 27テストケース
+- 詳細は [ts-api/README.md](packages/ts-api/README.md) を参照
 
 ### java-basic
 - Java + JUnit5によるテスト
