@@ -78,6 +78,32 @@ cd packages/java-pom-bdd
 mvn test
 ```
 
+## Viewing Test Reports
+
+### TypeScript Packages (HTML Reporter)
+
+After running tests, open the HTML report:
+
+```bash
+# Open report in default browser
+npx playwright show-report
+
+# Report location: playwright-report/index.html
+```
+
+### Java Packages (Surefire Report)
+
+Test results are output to `target/surefire-reports/`:
+
+```bash
+# View test results
+cat target/surefire-reports/*.txt
+
+# Generate HTML report (optional)
+mvn surefire-report:report
+# Report location: target/site/surefire-report.html
+```
+
 ## Package Descriptions
 
 ### ts-basic
