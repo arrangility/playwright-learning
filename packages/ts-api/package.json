@@ -1,0 +1,15 @@
+{
+  "name": "ts-api",
+  "version": "1.0.0",
+  "description": "Playwright API Testing - REST API & GraphQL samples",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:rest": "npx playwright test tests/rest-api/",
+    "test:graphql": "npx playwright test tests/graphql/"
+  },
+  "keywords": ["playwright", "api-testing", "rest", "graphql"],
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.2"
+  }
+}
