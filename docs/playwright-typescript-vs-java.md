@@ -1,49 +1,49 @@
-# Playwright: TypeScript vs Java 比較
+# Playwright: TypeScript vs Java Comparison
 
-## 1. ARIA Snapshot関連
+## 1. ARIA Snapshot Features
 
-| 機能 | TypeScript | Java |
-|------|------------|------|
+| Feature | TypeScript | Java |
+|---------|------------|------|
 | `matchesAriaSnapshot()` | ✅ | ✅ (v1.49+) |
-| `ariaSnapshot()` 取得 | ✅ | ✅ (v1.49+) |
-| スナップショット自動更新 | ✅ `--update-snapshots` | ❌ 手動更新のみ |
-| スナップショットファイル管理 | ✅ `.snap`ファイル自動生成 | ❌ なし |
+| `ariaSnapshot()` retrieval | ✅ | ✅ (v1.49+) |
+| Snapshot auto-update | ✅ `--update-snapshots` | ❌ Manual update only |
+| Snapshot file management | ✅ Auto-generated `.snap` files | ❌ None |
 
-## 2. テスト機能
+## 2. Test Features
 
-| 機能 | TypeScript | Java |
-|------|------------|------|
-| 組み込みテストランナー | ✅ `@playwright/test` | ❌ JUnit/TestNG使用 |
-| 並列実行 | ✅ 組み込み | ⚠️ JUnit設定必要 |
-| リトライ機能 | ✅ 組み込み | ❌ 別途実装 |
-| HTMLレポート | ✅ 組み込み | ❌ Allure等が必要 |
-| トレース収集 | ✅ 簡単設定 | ✅ 可能だが設定複雑 |
-| スクリーンショット自動保存 | ✅ 組み込み | ⚠️ 手動実装 |
+| Feature | TypeScript | Java |
+|---------|------------|------|
+| Built-in test runner | ✅ `@playwright/test` | ❌ Use JUnit/TestNG |
+| Parallel execution | ✅ Built-in | ⚠️ JUnit configuration required |
+| Retry feature | ✅ Built-in | ❌ Separate implementation |
+| HTML report | ✅ Built-in | ❌ Allure etc. required |
+| Trace collection | ✅ Easy configuration | ✅ Possible but complex setup |
+| Auto screenshot save | ✅ Built-in | ⚠️ Manual implementation |
 
-## 3. API機能 (両方で利用可能)
+## 3. API Features (Available in Both)
 
-| 機能 | TypeScript | Java |
-|------|------------|------|
-| ロールベースロケーター | ✅ | ✅ |
-| 自動待機 (Auto-wait) | ✅ | ✅ |
-| ネットワークインターセプト | ✅ | ✅ |
-| モバイルエミュレーション | ✅ | ✅ |
-| PDF生成 | ✅ | ✅ |
-| ビデオ録画 | ✅ | ✅ |
-| 複数ブラウザ対応 | ✅ | ✅ |
+| Feature | TypeScript | Java |
+|---------|------------|------|
+| Role-based locators | ✅ | ✅ |
+| Auto-wait | ✅ | ✅ |
+| Network intercept | ✅ | ✅ |
+| Mobile emulation | ✅ | ✅ |
+| PDF generation | ✅ | ✅ |
+| Video recording | ✅ | ✅ |
+| Multi-browser support | ✅ | ✅ |
 
-## 4. コード例の違い
+## 4. Code Examples Differences
 
-### フィクスチャ/セットアップ
+### Fixtures/Setup
 
-**TypeScript** - 自動的にpage, browser, contextが提供される:
+**TypeScript** - page, browser, context are automatically provided:
 ```typescript
 test('example', async ({ page }) => {
   await page.goto('https://example.com');
 });
 ```
 
-**Java** - 手動でセットアップが必要:
+**Java** - Manual setup required:
 ```java
 @BeforeAll
 void setupAll() {
@@ -58,7 +58,7 @@ void setup() {
 }
 ```
 
-### 設定ファイル
+### Configuration File
 
 **TypeScript** (`playwright.config.ts`):
 ```typescript
@@ -69,9 +69,9 @@ export default defineConfig({
 });
 ```
 
-**Java**: 設定ファイルなし、コードで設定
+**Java**: No configuration file, configure in code
 
-### ARIA Snapshotアサーション
+### ARIA Snapshot Assertions
 
 **TypeScript**:
 ```typescript
@@ -91,41 +91,41 @@ assertThat(nav).matchesAriaSnapshot("""
     """);
 ```
 
-## 5. TypeScriptのみの機能
+## 5. TypeScript-Only Features
 
-- **Component Testing**: React/Vue等のコンポーネントテスト
-- **UI Mode**: インタラクティブなデバッグUI (`npx playwright test --ui`)
-- **Codegen**: テストコード自動生成 (`npx playwright codegen`)
-- **Test Generator拡張**: VS Code拡張でのテスト記録
+- **Component Testing**: Component testing for React/Vue etc.
+- **UI Mode**: Interactive debugging UI (`npx playwright test --ui`)
+- **Codegen**: Auto test code generation (`npx playwright codegen`)
+- **Test Generator Extension**: Test recording in VS Code extension
 
-## 6. 開発体験
+## 6. Developer Experience
 
-| 項目 | TypeScript | Java |
+| Item | TypeScript | Java |
 |------|------------|------|
-| 公式ドキュメント | ◎ 最も充実 | ○ 基本的 |
-| 新機能リリース | 最速 | 1-2週間遅れ |
-| コミュニティ | 大きい | 小さい |
-| IDE補完 | ◎ VS Code最適化 | ○ IntelliJ対応 |
+| Official documentation | ◎ Most comprehensive | ○ Basic |
+| New feature releases | Fastest | 1-2 weeks delay |
+| Community | Large | Small |
+| IDE completion | ◎ VS Code optimized | ○ IntelliJ supported |
 
-## 7. 選択の指針
+## 7. Selection Guidelines
 
-### TypeScriptを選ぶべき場合
+### When to Choose TypeScript
 
-- フロントエンド開発チーム
-- 最新機能をすぐに使いたい
-- 組み込みレポート・リトライが必要
-- テストの自動生成・デバッグUIを活用したい
+- Frontend development team
+- Want to use latest features immediately
+- Need built-in reports/retry
+- Want to utilize test auto-generation/debugging UI
 
-### Javaを選ぶべき場合
+### When to Choose Java
 
-- バックエンドがJavaのプロジェクト
-- 既存のJUnit/TestNG資産がある
-- CI/CDがMaven/Gradle前提
-- 企業の技術スタック制約
+- Backend is Java project
+- Have existing JUnit/TestNG assets
+- CI/CD is Maven/Gradle based
+- Corporate technology stack constraints
 
-## 参考リンク
+## Reference Links
 
-- [Playwright公式ドキュメント (TypeScript)](https://playwright.dev/)
+- [Playwright Official Documentation (TypeScript)](https://playwright.dev/)
 - [Playwright Java API](https://playwright.dev/java/)
 - [ARIA Snapshot (TypeScript)](https://playwright.dev/docs/aria-snapshots)
 - [ARIA Snapshot (Java)](https://playwright.dev/java/docs/aria-snapshots)

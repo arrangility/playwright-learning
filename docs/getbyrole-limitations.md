@@ -1,126 +1,126 @@
-# getByRole()が使えないケースと対処法
+# Cases Where getByRole() Cannot Be Used and Solutions
 
-## 1. 非セマンティックな要素
+## 1. Non-Semantic Elements
 
 ```html
-<!-- ❌ ロールなし - getByRole不可 -->
-<div class="btn" onclick="submit()">送信</div>
-<span class="link" onclick="navigate()">詳細へ</span>
+<!-- ❌ No role - getByRole not possible -->
+<div class="btn" onclick="submit()">Submit</div>
+<span class="link" onclick="navigate()">Details</span>
 
-<!-- ✅ 正しい実装 -->
-<button type="submit">送信</button>
-<a href="/detail">詳細へ</a>
+<!-- ✅ Correct implementation -->
+<button type="submit">Submit</button>
+<a href="/detail">Details</a>
 ```
 
-## 2. カスタムコンポーネント（role属性なし）
+## 2. Custom Components (Without role Attribute)
 
 ```html
-<!-- ❌ カスタムドロップダウン -->
+<!-- ❌ Custom dropdown -->
 <div class="dropdown">
-  <div class="dropdown-trigger">選択してください</div>
+  <div class="dropdown-trigger">Please select</div>
   <div class="dropdown-menu">
-    <div class="dropdown-item">オプション1</div>
-    <div class="dropdown-item">オプション2</div>
+    <div class="dropdown-item">Option 1</div>
+    <div class="dropdown-item">Option 2</div>
   </div>
 </div>
 
-<!-- ✅ ARIA属性付き -->
+<!-- ✅ With ARIA attributes -->
 <div role="combobox" aria-expanded="false">
-  <div role="option">オプション1</div>
-  <div role="option">オプション2</div>
+  <div role="option">Option 1</div>
+  <div role="option">Option 2</div>
 </div>
 ```
 
-## 3. アイコンのみのボタン（ラベルなし）
+## 3. Icon-Only Buttons (Without Labels)
 
 ```html
-<!-- ❌ 識別不可 -->
+<!-- ❌ Not identifiable -->
 <button><svg class="icon-search"></svg></button>
 <button><i class="fa fa-edit"></i></button>
 
-<!-- ✅ aria-label付き -->
-<button aria-label="検索"><svg class="icon-search"></svg></button>
-<button aria-label="編集"><i class="fa fa-edit"></i></button>
+<!-- ✅ With aria-label -->
+<button aria-label="Search"><svg class="icon-search"></svg></button>
+<button aria-label="Edit"><i class="fa fa-edit"></i></button>
 ```
 
-## 4. 同じロール・名前が複数
+## 4. Multiple Elements with Same Role and Name
 
 ```html
-<!-- ❌ どの「詳細」か区別不可 -->
+<!-- ❌ Cannot distinguish which "Details" link -->
 <article>
-  <h3>商品A</h3>
-  <a href="/a">詳細</a>
+  <h3>Product A</h3>
+  <a href="/a">Details</a>
 </article>
 <article>
-  <h3>商品B</h3>
-  <a href="/b">詳細</a>  <!-- 同じ名前 -->
+  <h3>Product B</h3>
+  <a href="/b">Details</a>  <!-- Same name -->
 </article>
 ```
 
-### 対処法
+### Solutions
 
 ```typescript
-// 方法1: 親要素で絞り込む
-page.getByRole('article').filter({ hasText: '商品A' })
-    .getByRole('link', { name: '詳細' })
+// Method 1: Filter by parent element
+page.getByRole('article').filter({ hasText: 'Product A' })
+    .getByRole('link', { name: 'Details' })
 
-// 方法2: data-testid使用
+// Method 2: Use data-testid
 page.getByTestId('product-a-detail')
 ```
 
-## 5. 動的に生成されるコンテンツ
+## 5. Dynamically Generated Content
 
 ```html
-<!-- ❌ ローディング中は要素なし -->
+<!-- ❌ No element during loading -->
 <div id="results"></div>
 
-<!-- JavaScript後 -->
+<!-- After JavaScript -->
 <div id="results">
-  <div class="item">結果1</div>  <!-- role/labelなし -->
+  <div class="item">Result 1</div>  <!-- No role/label -->
 </div>
 ```
 
-## 6. Canvas/SVG内の要素
+## 6. Elements Inside Canvas/SVG
 
 ```html
-<!-- ❌ Canvas内部はDOMではない -->
+<!-- ❌ Canvas internals are not DOM -->
 <canvas id="chart"></canvas>
 
-<!-- ❌ SVG内部はロール認識されにくい -->
+<!-- ❌ SVG internals are not easily recognized by role -->
 <svg>
   <rect class="bar" onclick="showDetail()"></rect>
 </svg>
 ```
 
-## まとめ表
+## Summary Table
 
-| パターン | 問題 | 解決策 |
-|----------|------|--------|
-| `<div>`ボタン | ロールなし | `<button>`使用 or `role="button"` |
-| アイコンのみ | 名前なし | `aria-label`追加 |
-| 同名要素複数 | 識別不可 | 親で絞り込み or `data-testid` |
-| カスタムUI | ロールなし | `role`属性追加 |
-| Canvas/SVG | DOM外 | `data-testid` or 代替テキスト |
+| Pattern | Problem | Solution |
+|---------|---------|----------|
+| `<div>` button | No role | Use `<button>` or `role="button"` |
+| Icon only | No name | Add `aria-label` |
+| Multiple same-name elements | Not identifiable | Filter by parent or `data-testid` |
+| Custom UI | No role | Add `role` attribute |
+| Canvas/SVG | Outside DOM | `data-testid` or alternative text |
 
-## 開発チームへの依頼ポイント
+## Key Points for Development Teams
 
-1. **セマンティックHTML使用** - `<button>`, `<a>`, `<nav>`等
-2. **アイコンボタンにはaria-label** - スクリーンリーダー対応
-3. **複雑なUIにはrole属性** - カスタムコンポーネント対応
-4. **最終手段としてdata-testid** - テスト専用属性
+1. **Use semantic HTML** - `<button>`, `<a>`, `<nav>`, etc.
+2. **Add aria-label to icon buttons** - Screen reader support
+3. **Add role attribute to complex UI** - Custom component support
+4. **Use data-testid as last resort** - Test-specific attribute
 
-## Playwrightロケーター優先順位
+## Playwright Locator Priority
 
-| 優先度 | ロケーター | 用途 |
-|--------|-----------|------|
-| 1 | `getByRole()` | ボタン、リンク、見出し等 |
-| 2 | `getByLabel()` | フォーム入力フィールド |
-| 3 | `getByPlaceholder()` | プレースホルダーテキスト |
-| 4 | `getByText()` | 表示テキストで特定 |
-| 5 | `getByTestId()` | data-testid属性 |
-| 最終手段 | `locator()` | CSS/XPathセレクタ |
+| Priority | Locator | Use Case |
+|----------|---------|----------|
+| 1 | `getByRole()` | Buttons, links, headings, etc. |
+| 2 | `getByLabel()` | Form input fields |
+| 3 | `getByPlaceholder()` | Placeholder text |
+| 4 | `getByText()` | Identify by displayed text |
+| 5 | `getByTestId()` | data-testid attribute |
+| Last resort | `locator()` | CSS/XPath selectors |
 
-## 参考リンク
+## Reference Links
 
 - [Playwright Locators](https://playwright.dev/docs/locators)
 - [WAI-ARIA Roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)

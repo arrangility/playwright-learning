@@ -1,95 +1,95 @@
-# Playwright vs Selenium 比較
+# Playwright vs Selenium Comparison
 
-## ロケーター
+## Locators
 
-| 機能 | Playwright | Selenium |
-|------|------------|----------|
-| `getByRole()` | ✅ 組み込み | ❌ なし |
-| `getByLabel()` | ✅ 組み込み | ❌ なし |
-| `getByText()` | ✅ 組み込み | ⚠️ XPathで代用 |
-| CSSセレクタ | ✅ | ✅ |
+| Feature | Playwright | Selenium |
+|---------|------------|----------|
+| `getByRole()` | ✅ Built-in | ❌ None |
+| `getByLabel()` | ✅ Built-in | ❌ None |
+| `getByText()` | ✅ Built-in | ⚠️ Use XPath |
+| CSS selector | ✅ | ✅ |
 | XPath | ✅ | ✅ |
-| data-testid | ✅ `getByTestId()` | ⚠️ CSS/XPathで |
+| data-testid | ✅ `getByTestId()` | ⚠️ Via CSS/XPath |
 
-## コード比較: ボタンクリック
+## Code Comparison: Button Click
 
 ### Playwright
 
 ```java
-page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("送信"));
+page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit"));
 ```
 
-### Selenium - XPathで代用
+### Selenium - Using XPath
 
 ```java
-driver.findElement(By.xpath("//button[text()='送信']"));
-driver.findElement(By.xpath("//*[@role='button' and text()='送信']"));
+driver.findElement(By.xpath("//button[text()='Submit']"));
+driver.findElement(By.xpath("//*[@role='button' and text()='Submit']"));
 ```
 
 ## ARIA Snapshot
 
-| 機能 | Playwright | Selenium |
-|------|------------|----------|
-| ARIA Snapshot取得 | ✅ `ariaSnapshot()` | ❌ なし |
-| Snapshot検証 | ✅ `matchesAriaSnapshot()` | ❌ なし |
-| アクセシビリティツリー | ✅ 組み込み | ❌ なし |
+| Feature | Playwright | Selenium |
+|---------|------------|----------|
+| ARIA Snapshot retrieval | ✅ `ariaSnapshot()` | ❌ None |
+| Snapshot validation | ✅ `matchesAriaSnapshot()` | ❌ None |
+| Accessibility tree | ✅ Built-in | ❌ None |
 
-## その他の機能比較
+## Other Feature Comparison
 
-| 機能 | Playwright | Selenium |
-|------|------------|----------|
-| 自動待機 | ✅ 組み込み | ❌ 明示的に書く |
-| ネットワーク制御 | ✅ 簡単 | ⚠️ 複雑 |
-| 複数タブ操作 | ✅ 簡単 | ⚠️ 複雑 |
-| スクリーンショット | ✅ | ✅ |
-| 並列実行 | ✅ 組み込み | ⚠️ Grid必要 |
-| ブラウザインストール | ✅ 自動 | ❌ 手動 |
+| Feature | Playwright | Selenium |
+|---------|------------|----------|
+| Auto-wait | ✅ Built-in | ❌ Explicit wait required |
+| Network control | ✅ Easy | ⚠️ Complex |
+| Multi-tab handling | ✅ Easy | ⚠️ Complex |
+| Screenshots | ✅ | ✅ |
+| Parallel execution | ✅ Built-in | ⚠️ Grid required |
+| Browser installation | ✅ Automatic | ❌ Manual |
 
-## 待機処理の違い
+## Wait Handling Differences
 
-### Playwright - 自動待機
+### Playwright - Auto-wait
 
 ```java
-page.getByRole(AriaRole.BUTTON, opts.setName("送信")).click();
+page.getByRole(AriaRole.BUTTON, opts.setName("Submit")).click();
 ```
 
-### Selenium - 明示的な待機が必要
+### Selenium - Explicit Wait Required
 
 ```java
 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 WebElement button = wait.until(
-    ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='送信']"))
+    ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Submit']"))
 );
 button.click();
 ```
 
-## 総合比較
+## Overall Comparison
 
-| 観点 | Playwright | Selenium |
-|------|------------|----------|
-| ロールベーステスト | ◎ | △ |
+| Aspect | Playwright | Selenium |
+|--------|------------|----------|
+| Role-based testing | ◎ | △ |
 | ARIA Snapshot | ◎ | ✗ |
-| 開発体験 | ◎ | ○ |
-| 学習コスト | 低い | 高い |
-| 歴史・実績 | 新しい (2020~) | 長い (2004~) |
-| 企業採用率 | 増加中 | 高い |
+| Developer experience | ◎ | ○ |
+| Learning curve | Low | High |
+| History/Track record | New (2020~) | Long (2004~) |
+| Enterprise adoption | Growing | High |
 
-## 選択の指針
+## Selection Guidelines
 
-### Seleniumを選ぶ理由
+### Reasons to Choose Selenium
 
-- 既存資産が大量にある
-- チームがSeleniumに慣れている
-- 古いブラウザ対応が必要
+- Large existing test assets
+- Team is familiar with Selenium
+- Need to support older browsers
 
-### Playwrightを選ぶ理由
+### Reasons to Choose Playwright
 
-- 新規プロジェクト
-- アクセシビリティ重視
-- モダンな開発体験
+- New project
+- Accessibility focus
+- Modern developer experience
 
-## 参考リンク
+## Reference Links
 
-- [Playwright公式](https://playwright.dev/)
-- [Selenium公式](https://www.selenium.dev/)
-- [Playwright vs Selenium (公式比較)](https://playwright.dev/docs/selenium)
+- [Playwright Official](https://playwright.dev/)
+- [Selenium Official](https://www.selenium.dev/)
+- [Playwright vs Selenium (Official Comparison)](https://playwright.dev/docs/selenium)
