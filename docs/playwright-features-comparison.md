@@ -1,193 +1,195 @@
-# Playwright 機能一覧と言語別対応状況
+# Playwright Features and Language Support
 
-## 概要
+## Overview
 
-Playwrightは4つの言語をサポートしていますが、機能の充実度は言語によって異なります。
-本ドキュメントでは、Playwrightの機能を整理し、各言語での対応状況を一覧化します。
-
----
-
-## 1. サポート言語と成熟度
-
-| 言語 | 成熟度 | 推奨テストフレームワーク |
-|------|--------|------------------------|
-| JavaScript/TypeScript | ✅ 正式版（最も充実） | Playwright Test |
-| Python | ✅ 正式版 | pytest |
-| Java | ✅ 正式版（v1.10〜） | JUnit / TestNG |
-| C#/.NET | ✅ 正式版 | MSTest / NUnit / xUnit / xUnit v3 |
+Playwright supports four languages, but the feature richness varies by language.
+This document organizes Playwright features and lists the support status for each language.
 
 ---
 
-## 2. 基本機能（コアライブラリ）
+## 1. Supported Languages and Maturity
 
-すべての言語で利用可能なブラウザ自動化の基本機能です。
-
-| 機能 | 説明 | JS/TS | Python | Java | C# | Selenium比較 |
-|------|------|:-----:|:------:|:----:|:--:|-------------|
-| **クロスブラウザ対応** | Chromium, Firefox, WebKit | ✅ | ✅ | ✅ | ✅ | Selenium: より多くのブラウザ対応 |
-| **Auto-wait（自動待機）** | 要素が操作可能になるまで自動で待機 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: 手動で待機処理が必要 |
-| **ネットワークインターセプション** | リクエスト/レスポンスの傍受・変更 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: selenium-wire等が必要 |
-| **Browser Context** | 軽量な分離ブラウザ環境 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: 新規ブラウザインスタンスが必要 |
-| **モバイルエミュレーション** | デバイス・ビューポートの模倣 | ✅ | ✅ | ✅ | ✅ | 両方対応 |
-| **スクリーンショット** | ページ/要素のキャプチャ | ✅ | ✅ | ✅ | ✅ | 両方対応 |
-| **動画録画** | テスト実行の録画 | ✅ | ✅ | ✅ | ✅ | Selenium: 追加ツール必要 |
-| **Tracing（トレース）** | 実行履歴の記録 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: 同等機能なし |
-| **Shadow DOM対応** | Shadow DOM内の要素操作 | ✅ | ✅ | ✅ | ✅ | 両方対応（設定が異なる） |
-| **iframe対応** | フレーム内の要素操作 | ✅ | ✅ | ✅ | ✅ | 両方対応 |
-| **マルチタブ/ウィンドウ** | 複数タブ・ウィンドウの操作 | ✅ | ✅ | ✅ | ✅ | 両方対応 |
-| **ファイルアップロード/ダウンロード** | ファイル操作 | ✅ | ✅ | ✅ | ✅ | 両方対応 |
-| **Geolocation模倣** | 位置情報の偽装 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: 追加設定必要 |
-| **Permission制御** | ブラウザ権限の制御 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: 限定的 |
-| **WebSocket対応** | WebSocket通信の監視 | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: 追加ツール必要 |
+| Language | Maturity | Recommended Test Framework |
+|----------|----------|---------------------------|
+| JavaScript/TypeScript | ✅ Stable (Most complete) | Playwright Test |
+| Python | ✅ Stable | pytest |
+| Java | ✅ Stable (v1.10+) | JUnit / TestNG |
+| C#/.NET | ✅ Stable | MSTest / NUnit / xUnit / xUnit v3 |
 
 ---
 
-## 3. 開発者ツール
+## 2. Core Features (Core Library)
 
-| 機能 | 説明 | JS/TS | Python | Java | C# |
-|------|------|:-----:|:------:|:----:|:--:|
-| **Codegen（コード生成）** | 操作を記録してコード自動生成 | ✅ | ✅ | ✅ | ✅ |
-| **Playwright Inspector** | GUIでのデバッグ・ステップ実行 | ✅ | ✅ | ✅ | ✅ |
-| **Trace Viewer** | トレースファイルの可視化 | ✅ | ✅ | ✅ | ✅ |
-| **page.pause()** | テスト中断・デバッグ | ✅ | ✅ | ✅ | ✅ |
+Basic browser automation features available in all languages.
 
-> **補足**: Codegen, Inspector, Trace Viewerは全言語で利用可能ですが、CLIコマンドの実行方法が言語ごとに異なります。
-
----
-
-## 4. テストランナー機能（Playwright Test）
-
-**⚠️ 以下はJS/TS専用の「Playwright Test」の機能です。**
-
-| 機能 | 説明 | JS/TS | Python | Java | C# |
-|------|------|:-----:|:------:|:----:|:--:|
-| **専用テストランナー** | Playwright Test | ✅ | ❌ | ❌ | ❌ |
-| **設定ファイル** | playwright.config.ts | ✅ | ❌ | ❌ | ❌ |
-| **シャーディング** | 複数マシンへのテスト分散 | ✅ | ❌ | ❌ | ❌ |
-| **パラレリズム（workers）** | 1マシン内の並列実行 | ✅ | ❌* | ❌* | ❌* |
-| **HTMLレポーター** | 組み込みHTMLレポート生成 | ✅ | ❌ | ❌ | ❌ |
-| **UIモード** | GUIでのテスト実行・管理 | ✅ | ❌ | ❌ | ❌ |
-| **VS Code拡張機能** | エディタ統合 | ✅ | ❌ | ❌ | ❌ |
-| **スクリーンショット比較** | ビジュアルリグレッションテスト（toHaveScreenshot） | ✅ | ❌* | ❌ | ❌ |
-| **Soft Assertions** | 失敗してもテスト継続 | ✅ | ❌ | ❌ | ❌ |
-| **Test Fixtures** | テストの前後処理の仕組み | ✅ | ❌** | ❌ | ❌ |
-| **Retry機能** | 失敗テストの自動再実行 | ✅ | ❌ | ❌ | ❌ |
-| **タグ/フィルタリング** | テストの絞り込み実行 | ✅ | ❌*** | ❌*** | ❌*** |
-
-> \* Python: pytest-xdist、Java/C#: 各フレームワークの並列機能で代替可能  
-> \*\* Python: pytestのfixtureで同様の機能を実現可能  
-> \*\*\* 各テストフレームワークの機能で代替可能  
-> \* スクリーンショット比較: Pythonではpytest-playwright-visual-snapshotなどのサードパーティプラグインで対応可能
+| Feature | Description | JS/TS | Python | Java | C# | Selenium Comparison |
+|---------|-------------|:-----:|:------:|:----:|:--:|---------------------|
+| **Cross-browser support** | Chromium, Firefox, WebKit | ✅ | ✅ | ✅ | ✅ | Selenium: More browsers supported |
+| **Auto-wait** | Automatically waits until element is actionable | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: Manual wait handling required |
+| **Network interception** | Intercept/modify requests/responses | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: Requires selenium-wire etc. |
+| **Browser Context** | Lightweight isolated browser environment | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: New browser instance required |
+| **Mobile emulation** | Device/viewport simulation | ✅ | ✅ | ✅ | ✅ | Both supported |
+| **Screenshots** | Page/element capture | ✅ | ✅ | ✅ | ✅ | Both supported |
+| **Video recording** | Test execution recording | ✅ | ✅ | ✅ | ✅ | Selenium: Additional tools required |
+| **Tracing** | Execution history recording | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: No equivalent feature |
+| **Shadow DOM support** | Element operations inside Shadow DOM | ✅ | ✅ | ✅ | ✅ | Both supported (different configuration) |
+| **iframe support** | Element operations inside frames | ✅ | ✅ | ✅ | ✅ | Both supported |
+| **Multi-tab/window** | Multiple tabs/windows handling | ✅ | ✅ | ✅ | ✅ | Both supported |
+| **File upload/download** | File operations | ✅ | ✅ | ✅ | ✅ | Both supported |
+| **Geolocation emulation** | Location spoofing | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: Additional setup required |
+| **Permission control** | Browser permission control | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: Limited |
+| **WebSocket support** | WebSocket communication monitoring | ✅ | ✅ | ✅ | ✅ | 🆕 Selenium: Additional tools required |
 
 ---
 
-## 5. 他言語での代替方法
+## 3. Developer Tools
+
+| Feature | Description | JS/TS | Python | Java | C# |
+|---------|-------------|:-----:|:------:|:----:|:--:|
+| **Codegen** | Record operations and auto-generate code | ✅ | ✅ | ✅ | ✅ |
+| **Playwright Inspector** | GUI debugging/step execution | ✅ | ✅ | ✅ | ✅ |
+| **Trace Viewer** | Trace file visualization | ✅ | ✅ | ✅ | ✅ |
+| **page.pause()** | Test interruption/debugging | ✅ | ✅ | ✅ | ✅ |
+
+> **Note**: Codegen, Inspector, and Trace Viewer are available in all languages, but CLI command execution differs by language.
+
+---
+
+## 4. Test Runner Features (Playwright Test)
+
+**⚠️ The following are features of "Playwright Test" exclusive to JS/TS.**
+
+| Feature | Description | JS/TS | Python | Java | C# |
+|---------|-------------|:-----:|:------:|:----:|:--:|
+| **Dedicated test runner** | Playwright Test | ✅ | ❌ | ❌ | ❌ |
+| **Configuration file** | playwright.config.ts | ✅ | ❌ | ❌ | ❌ |
+| **Sharding** | Test distribution across multiple machines | ✅ | ❌ | ❌ | ❌ |
+| **Parallelism (workers)** | Parallel execution on single machine | ✅ | ❌* | ❌* | ❌* |
+| **HTML reporter** | Built-in HTML report generation | ✅ | ❌ | ❌ | ❌ |
+| **UI Mode** | GUI test execution/management | ✅ | ❌ | ❌ | ❌ |
+| **VS Code extension** | Editor integration | ✅ | ❌ | ❌ | ❌ |
+| **Screenshot comparison** | Visual regression testing (toHaveScreenshot) | ✅ | ❌* | ❌ | ❌ |
+| **Soft Assertions** | Continue test after failure | ✅ | ❌ | ❌ | ❌ |
+| **Test Fixtures** | Test setup/teardown mechanism | ✅ | ❌** | ❌ | ❌ |
+| **Retry feature** | Automatic retry of failed tests | ✅ | ❌ | ❌ | ❌ |
+| **Tags/Filtering** | Filtered test execution | ✅ | ❌*** | ❌*** | ❌*** |
+
+> \* Python: Can be replaced with pytest-xdist, Java/C#: Use parallel features of each framework
+> \*\* Python: Similar functionality achievable with pytest fixtures
+> \*\*\* Can be replaced with each test framework's features
+> \* Screenshot comparison: Python can use third-party plugins like pytest-playwright-visual-snapshot
+
+---
+
+## 5. Alternative Methods for Other Languages
 
 ### Python
 
-| Playwright Test機能 | 代替方法 |
-|---------------------|----------|
-| 並列実行 | `pytest-xdist` (`pytest -n auto`) |
-| シャーディング | CIのジョブマトリックス + pytest-split |
-| レポート | pytest-html, Allure |
-| 設定管理 | conftest.py, pytest.ini |
+| Playwright Test Feature | Alternative |
+|------------------------|-------------|
+| Parallel execution | `pytest-xdist` (`pytest -n auto`) |
+| Sharding | CI job matrix + pytest-split |
+| Reports | pytest-html, Allure |
+| Configuration | conftest.py, pytest.ini |
 | Fixtures | pytest fixtures |
 
 ### Java
 
-| Playwright Test機能 | 代替方法 |
-|---------------------|----------|
-| 並列実行 | TestNG (parallel属性), JUnit 5 (parallel) |
-| シャーディング | CIのジョブマトリックス |
-| レポート | Allure, ExtentReports |
-| 設定管理 | testng.xml, プロパティファイル |
+| Playwright Test Feature | Alternative |
+|------------------------|-------------|
+| Parallel execution | TestNG (parallel attribute), JUnit 5 (parallel) |
+| Sharding | CI job matrix |
+| Reports | Allure, ExtentReports |
+| Configuration | testng.xml, property files |
 
 ### C#/.NET
 
-| Playwright Test機能 | 代替方法 |
-|---------------------|----------|
-| 並列実行 | NUnit/xUnit の並列実行機能 |
-| シャーディング | CIのジョブマトリックス |
-| レポート | Allure, ExtentReports |
+| Playwright Test Feature | Alternative |
+|------------------------|-------------|
+| Parallel execution | NUnit/xUnit parallel execution features |
+| Sharding | CI job matrix |
+| Reports | Allure, ExtentReports |
 
 ---
 
-## 6. Seleniumとの機能比較（Playwright独自機能）
+## 6. Feature Comparison with Selenium (Playwright Unique Features)
 
-以下はPlaywrightがSeleniumに対して持つ**独自の優位性**です。
+Below are **Playwright's unique advantages** over Selenium.
 
-| 機能 | Playwright | Selenium |
-|------|------------|----------|
-| **通信方式** | DevTools Protocol（WebSocket） | WebDriver Protocol（HTTP） |
-| **Auto-wait** | ✅ 標準搭載 | ❌ 手動実装必要 |
-| **ネットワークインターセプション** | ✅ 標準搭載 | ❌ selenium-wire等が必要 |
-| **Browser Context** | ✅ 軽量分離環境 | ❌ 新規インスタンス必要 |
-| **Trace Viewer** | ✅ 標準搭載 | ❌ なし |
-| **Codegen** | ✅ 標準搭載 | ⚠️ Selenium IDE（別ツール） |
-| **実行速度** | 🚀 高速 | 🐢 やや遅い |
-| **セットアップ** | 簡単（ブラウザ自動DL） | 複雑（ドライバ管理必要）* |
-| **フレーク（不安定）テスト** | 少ない | 多くなりがち |
+| Feature | Playwright | Selenium |
+|---------|------------|----------|
+| **Communication method** | DevTools Protocol (WebSocket) | WebDriver Protocol (HTTP) |
+| **Auto-wait** | ✅ Built-in | ❌ Manual implementation required |
+| **Network interception** | ✅ Built-in | ❌ Requires selenium-wire etc. |
+| **Browser Context** | ✅ Lightweight isolation | ❌ New instance required |
+| **Trace Viewer** | ✅ Built-in | ❌ None |
+| **Codegen** | ✅ Built-in | ⚠️ Selenium IDE (separate tool) |
+| **Execution speed** | 🚀 Fast | 🐢 Somewhat slow |
+| **Setup** | Easy (auto browser download) | Complex (driver management required)* |
+| **Flaky tests** | Fewer | More common |
 
-> \* Selenium 4以降はSelenium Managerで改善
+> \* Selenium 4+ improved with Selenium Manager
 
-### Seleniumの優位点
+### Selenium Advantages
 
-| 機能 | Selenium | Playwright |
-|------|----------|------------|
-| **対応言語** | Java, Python, C#, JS, Ruby（PHP, Perlはサードパーティ） | JS/TS, Python, Java, C# |
-| **対応ブラウザ** | Chrome, Firefox, Safari, Edge, Opera | Chromium, Firefox, WebKit |
-| **実機テスト** | ✅ Appiumとの連携 | ❌ エミュレーションのみ |
-| **コミュニティ** | 非常に大きい | 成長中 |
-| **IE互換モード** | ⚠️ Edge IE Modeのみ（2022年6月〜）| ❌ 非対応 |
+| Feature | Selenium | Playwright |
+|---------|----------|------------|
+| **Supported languages** | Java, Python, C#, JS, Ruby (PHP, Perl via third-party) | JS/TS, Python, Java, C# |
+| **Supported browsers** | Chrome, Firefox, Safari, Edge, Opera | Chromium, Firefox, WebKit |
+| **Real device testing** | ✅ Appium integration | ❌ Emulation only |
+| **Community** | Very large | Growing |
+| **IE compatibility mode** | ⚠️ Edge IE Mode only (since June 2022) | ❌ Not supported |
 
-> **注意**: Seleniumは2022年6月以降、スタンドアロンのInternet Explorerを公式にサポートしていません。IEドライバーはMicrosoft EdgeのIE互換モードでの実行のみをサポートしています。
+> **Note**: Since June 2022, Selenium no longer officially supports standalone Internet Explorer. The IE Driver only supports execution in Microsoft Edge's IE compatibility mode.
 
 ---
 
-## 7. 言語選択の指針
+## 7. Language Selection Guidelines
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    言語選択フローチャート                      │
+│                Language Selection Flowchart                  │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
               ┌───────────────────────────────┐
-              │ 最新機能をフル活用したい？      │
+              │ Want to utilize latest        │
+              │ features fully?               │
               └───────────────────────────────┘
                      │               │
                     Yes              No
                      │               │
                      ▼               ▼
             ┌─────────────┐  ┌───────────────────────────┐
-            │ TypeScript  │  │ チームの得意な言語は？      │
-            │ を選択      │  └───────────────────────────┘
-            └─────────────┘           │
+            │ Choose      │  │ What's your team's        │
+            │ TypeScript  │  │ preferred language?       │
+            └─────────────┘  └───────────────────────────┘
+                                      │
                               ┌───────┴───────┐
                               │               │
                          Python/Java      C#/.NET
                               │               │
                               ▼               ▼
                     ┌─────────────┐  ┌─────────────┐
-                    │ Python/Java │  │    C#       │
-                    │ を選択      │  │  を選択     │
+                    │ Choose      │  │ Choose      │
+                    │ Python/Java │  │ C#          │
                     └─────────────┘  └─────────────┘
 ```
 
-### 推奨パターン
+### Recommended Patterns
 
-| シナリオ | 推奨言語 | 理由 |
-|----------|----------|------|
-| 新規プロジェクト、最大限の機能活用 | **TypeScript** | Playwright Testのフル機能 |
-| QAチーム主導、シンプルさ重視 | **Python** | 学習コストが低い |
-| 既存Java資産との統合 | **Java** | エコシステム活用 |
-| .NETアプリケーションのテスト | **C#** | 統一された技術スタック |
+| Scenario | Recommended Language | Reason |
+|----------|---------------------|--------|
+| New project, maximum feature utilization | **TypeScript** | Full Playwright Test features |
+| QA team led, simplicity priority | **Python** | Low learning curve |
+| Integration with existing Java assets | **Java** | Ecosystem utilization |
+| .NET application testing | **C#** | Unified technology stack |
 
 ---
 
-## 8. まとめ
+## 8. Summary
 
-### 機能充実度ランキング
+### Feature Richness Ranking
 
 ```
 TypeScript/JavaScript ████████████████████ 100%
@@ -196,21 +198,21 @@ Java                  ██████████████       70%
 C#/.NET               ██████████████       70%
 ```
 
-### 重要なポイント
+### Key Points
 
-1. **コアのブラウザ自動化機能**は全言語で同等
-2. **Playwright Test**（テストランナー）はJS/TS専用
-3. **シャーディング・UIモード・VS Code統合**はJS/TS専用
-4. 他言語では**外部ツールとの組み合わせ**で同等機能を実現可能
-5. Seleniumと比較して**Auto-wait、ネットワークインターセプション、Trace Viewer**が大きな差別化ポイント
+1. **Core browser automation features** are equivalent across all languages
+2. **Playwright Test** (test runner) is JS/TS exclusive
+3. **Sharding, UI Mode, VS Code integration** are JS/TS exclusive
+4. Other languages can achieve equivalent functionality through **external tool combinations**
+5. **Auto-wait, Network interception, Trace Viewer** are major differentiators compared to Selenium
 
 ---
 
-## 参考リンク
+## Reference Links
 
-- [Playwright 公式ドキュメント](https://playwright.dev/)
+- [Playwright Official Documentation](https://playwright.dev/)
 - [Playwright Python](https://playwright.dev/python/)
 - [Playwright Java](https://playwright.dev/java/)
 - [Playwright .NET](https://playwright.dev/dotnet/)
-- [シャーディングガイド](https://playwright.dev/docs/test-sharding)
-- [並列実行ガイド](https://playwright.dev/docs/test-parallel)
+- [Sharding Guide](https://playwright.dev/docs/test-sharding)
+- [Parallel Execution Guide](https://playwright.dev/docs/test-parallel)
