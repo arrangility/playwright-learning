@@ -1,9 +1,9 @@
-import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import { test, expect } from '../fixtures/base-test';
 import { CatalogPage } from '../pages/CatalogPage';
 import { CartComponent } from '../pages/components/CartComponent';
 
-const { Given, When, Then } = createBdd();
+const { Given, When, Then } = createBdd(test);
 
 // Add to cart steps
 When('{string}をカートに追加する', async ({ page }, productName: string) => {

@@ -53,4 +53,48 @@ export class CartComponent {
     const cartItem = this.cartSection.locator(`text=${productName}`).locator('xpath=ancestor::*[.//button]').first();
     await cartItem.getByRole('button', { name: '🗑️' }).click();
   }
+
+  /**
+   * Get list of all product names in the cart
+   * @returns Array of product names
+   */
+  async getItemNames(): Promise<string[]> {
+    const items: string[] = [];
+    const removeButtons = this.cartSection.getByRole('button', { name: '🗑️' });
+    const count = await removeButtons.count();
+
+    for (let i = 0; i < count; i++) {
+      const cartItem = removeButtons.nth(i).locator('xpath=ancestor::*[contains(@class, "cart") or contains(@class, "item")]').first();
+      const text = await cartItem.textContent();
+      if (text) {
+        // Extract product name from cart item text
+        // Text format: "ProductName ¥Price 🗑️"
+        const match = text.match(/^(.+?)¥/);
+        if (match) {
+          items.push(match[1].trim());
+        }
+      }
+    }
+    return items;
+  }
+
+  /**
+   * Get price of a specific product in the cart
+   * @param productName Name of the product
+   * @returns Price in yen (integer)
+   */
+  async getItemPrice(productName: string): Promise<number> {
+    // Find cart item containing the product name
+    const cartItem = this.cartSection.locator(`text=${productName}`).locator('xpath=ancestor::*[.//button]').first();
+    const text = await cartItem.textContent();
+
+    if (text) {
+      // Extract price from text (format: "ProductName ¥XX,XXX 🗑️")
+      const match = text.match(/¥([\d,]+)/);
+      if (match) {
+        return parseInt(match[1].replace(/,/g, ''), 10);
+      }
+    }
+    return 0;
+  }
 }

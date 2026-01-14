@@ -1,10 +1,10 @@
-import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import { test, expect } from '../fixtures/base-test';
 import { HeaderComponent } from '../pages/components/HeaderComponent';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 
-const { Given, When, Then } = createBdd();
+const { Given, When, Then } = createBdd(test);
 
 // Login steps
 When('ログインボタンをクリックする', async ({ page }) => {
