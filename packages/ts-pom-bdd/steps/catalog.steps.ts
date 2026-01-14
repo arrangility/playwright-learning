@@ -1,8 +1,8 @@
-import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import { test, expect } from '../fixtures/base-test';
 import { CatalogPage } from '../pages/CatalogPage';
 
-const { Given, When, Then } = createBdd();
+const { Given, When, Then } = createBdd(test);
 
 // Search steps
 When('{string}で検索する', async ({ page }, keyword: string) => {

@@ -1,9 +1,9 @@
-import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import { test, expect } from '../fixtures/base-test';
 import { BasePage } from '../pages/BasePage';
 import { HeaderComponent } from '../pages/components/HeaderComponent';
 
-const { Given, When, Then } = createBdd();
+const { Given, When, Then } = createBdd(test);
 
 // Navigation steps
 Given('ShopTodoのホームページを開く', async ({ page }) => {

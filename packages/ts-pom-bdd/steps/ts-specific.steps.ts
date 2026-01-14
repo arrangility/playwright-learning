@@ -1,7 +1,7 @@
-import { expect } from '@playwright/test';
 import { createBdd, DataTable } from 'playwright-bdd';
+import { test, expect } from '../fixtures/base-test';
 
-const { Then } = createBdd();
+const { Then } = createBdd(test);
 
 // ============================================
 // Visual Regression Testing (toHaveScreenshot)
