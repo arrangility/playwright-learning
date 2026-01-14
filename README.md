@@ -8,7 +8,8 @@ A collection of Playwright E2E test samples (TypeScript & Java)
 
 ```
 playwright-learning/
-├── docs/                    # Documentation
+├── docs/                    # Documentation (English .md files with Japanese .jp.md versions)
+│   ├── playwright-features-comparison.md
 │   ├── playwright-typescript-vs-java.md
 │   ├── playwright-vs-selenium.md
 │   └── getbyrole-limitations.md
@@ -169,6 +170,7 @@ await expect(nav).toMatchAriaSnapshot(`...`);
 
 ## Documentation
 
+- [Playwright Features and Language Support](docs/playwright-features-comparison.md)
 - [TypeScript vs Java Comparison](docs/playwright-typescript-vs-java.md)
 - [Playwright vs Selenium Comparison](docs/playwright-vs-selenium.md)
 - [getByRole() Limitations and Workarounds](docs/getbyrole-limitations.md)
