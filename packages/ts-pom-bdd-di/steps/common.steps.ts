@@ -1,11 +1,12 @@
 import { createBdd } from 'playwright-bdd';
-import { test, expect } from '../fixtures/base-test';
-import { BasePage } from '../pages/BasePage';
-import { HeaderComponent } from '../pages/components/HeaderComponent';
+import { test, expect } from '../fixtures/test-fixtures';
 
 const { Given, When, Then } = createBdd(test);
 
-// Navigation steps
+// ==========================================
+// Navigation steps (DI version)
+// ==========================================
+
 Given('ShopTodoのホームページを開く', async ({ page }) => {
   await page.goto('https://toasagi.github.io/shoptodo-app/');
   await page.waitForLoadState('domcontentloaded');
@@ -13,16 +14,17 @@ Given('ShopTodoのホームページを開く', async ({ page }) => {
   await page.waitForSelector('button:has-text("カートに追加")', { timeout: 10000 });
 });
 
-// Language steps
-When('英語に切り替える', async ({ page }) => {
-  const header = new HeaderComponent(page);
-  await header.switchToEnglish();
+// ==========================================
+// Language steps (DI version)
+// ==========================================
+
+When('英語に切り替える', async ({ headerComponent, page }) => {
+  await headerComponent.switchToEnglish();
   await page.waitForTimeout(300);
 });
 
-When('日本語に切り替える', async ({ page }) => {
-  const header = new HeaderComponent(page);
-  await header.switchToJapanese();
+When('日本語に切り替える', async ({ headerComponent, page }) => {
+  await headerComponent.switchToJapanese();
   await page.waitForTimeout(300);
 });
 

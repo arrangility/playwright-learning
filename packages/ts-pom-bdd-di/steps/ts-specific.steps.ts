@@ -1,5 +1,5 @@
 import { createBdd, DataTable } from 'playwright-bdd';
-import { test, expect } from '../fixtures/base-test';
+import { test, expect } from '../fixtures/test-fixtures';
 
 const { Then } = createBdd(test);
 

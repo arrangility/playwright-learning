@@ -73,14 +73,14 @@ export const test = base.extend<TestFixtures>({
     // Cleanup automatically handled by Playwright
   },
 
-  // Cart component - depends on authenticatedPage
-  cartComponent: async ({ authenticatedPage }, use) => {
-    await use(new CartComponent(authenticatedPage));
+  // Cart component - depends on page
+  cartComponent: async ({ page }, use) => {
+    await use(new CartComponent(page));
   },
 
-  // Catalog page - depends on authenticatedPage
-  catalogPage: async ({ authenticatedPage }, use) => {
-    await use(new CatalogPage(authenticatedPage));
+  // Catalog page - depends on page
+  catalogPage: async ({ page }, use) => {
+    await use(new CatalogPage(page));
   },
 
   // Product data fixture
