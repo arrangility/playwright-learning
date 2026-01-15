@@ -17,6 +17,7 @@ playwright-learning/
     ├── ts-basic/            # TypeScript basic tests
     ├── ts-bdd/              # TypeScript BDD tests
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
+    ├── ts-pom-bdd-di/       # TypeScript BDD + POM + Dependency Injection (Fixtures)
     ├── ts-api/              # TypeScript API tests (REST & GraphQL)
     ├── java-basic/          # Java basic tests
     └── java-pom-bdd/        # Java BDD + Page Object Model
@@ -53,6 +54,14 @@ npm run test
 
 ```bash
 cd packages/ts-pom-bdd
+npm install
+npm run test
+```
+
+### TypeScript - BDD + POM + Dependency Injection
+
+```bash
+cd packages/ts-pom-bdd-di
 npm install
 npm run test
 ```
@@ -120,8 +129,19 @@ mvn surefire-report:report
 ### ts-pom-bdd
 - BDD + Page Object Model pattern
 - Practical samples targeting [ShopTodo](https://toasagi.github.io/shoptodo-app/)
-- 23 scenarios (login, catalog, cart, language switching)
+- Manual Page Object instantiation in step definitions
+- 29 scenarios (login, register, catalog, cart, language switching, TypeScript-specific features)
 - See [ts-pom-bdd/README.md](packages/ts-pom-bdd/README.md) for details
+
+### ts-pom-bdd-di
+- BDD + Page Object Model + **Dependency Injection (Fixtures)**
+- Complete DI implementation - all step definitions use Fixtures
+- **9 custom Fixtures**: Page Objects, Components, Test Data auto-injection
+- **40 step definition methods**: No manual `new XxxPage(page)` instantiation
+- Same test target as ts-pom-bdd: [ShopTodo](https://toasagi.github.io/shoptodo-app/)
+- 29 scenarios (28 passed, 1 skipped as expected)
+- **Key benefits**: Reduced boilerplate, improved maintainability, centralized test data
+- See [ts-pom-bdd-di/README.md](packages/ts-pom-bdd-di/README.md) for details
 
 ### ts-api
 - REST API tests (using JSONPlaceholder)

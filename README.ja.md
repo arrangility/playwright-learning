@@ -14,6 +14,7 @@ playwright-learning/
     ├── ts-basic/            # TypeScript基本テスト
     ├── ts-bdd/              # TypeScript BDDテスト
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
+    ├── ts-pom-bdd-di/       # TypeScript BDD + POM + 依存性注入（Fixtures）
     ├── ts-api/              # TypeScript APIテスト（REST & GraphQL）
     ├── java-basic/          # Java基本テスト
     └── java-pom-bdd/        # Java BDD + Page Object Model
@@ -50,6 +51,14 @@ npm run test
 
 ```bash
 cd packages/ts-pom-bdd
+npm install
+npm run test
+```
+
+### TypeScript - BDD + POM + 依存性注入
+
+```bash
+cd packages/ts-pom-bdd-di
 npm install
 npm run test
 ```
@@ -117,8 +126,19 @@ mvn surefire-report:report
 ### ts-pom-bdd
 - BDD + Page Object Model パターン
 - [ShopTodo](https://toasagi.github.io/shoptodo-app/)を対象とした実践的サンプル
-- 23シナリオ（ログイン、カタログ、カート、言語切替）
+- ステップ定義内で手動でPage Objectをインスタンス化
+- 29シナリオ（ログイン、新規登録、カタログ、カート、言語切替、TypeScript固有機能）
 - 詳細は [ts-pom-bdd/README.md](packages/ts-pom-bdd/README.md) を参照
+
+### ts-pom-bdd-di
+- BDD + Page Object Model + **依存性注入（Fixtures）**
+- 完全DI実装 - 全ステップ定義でFixturesを使用
+- **9つのカスタムFixtures**: Page Objects、Components、Test Dataを自動注入
+- **40ステップ定義メソッド**: `new XxxPage(page)` のような手動インスタンス化なし
+- ts-pom-bddと同じテスト対象: [ShopTodo](https://toasagi.github.io/shoptodo-app/)
+- 29シナリオ（28成功、1スキップ：想定通り）
+- **主なメリット**: ボイラープレート削減、保守性向上、テストデータの一元管理
+- 詳細は [ts-pom-bdd-di/README.md](packages/ts-pom-bdd-di/README.md) を参照
 
 ### ts-api
 - REST API テスト（JSONPlaceholder使用）
