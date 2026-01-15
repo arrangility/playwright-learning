@@ -6,6 +6,12 @@ BDD (Behavior-Driven Development) + Page Object Model + **Dependency Injection (
 
 このパッケージは、[ShopTodo](https://toasagi.github.io/shoptodo-app/) E2Eテスト練習用アプリを対象に、**完全DI化された**BDD形式のテストを Page Object Model パターンで実装したサンプルです。
 
+**実装規模:**
+- 📦 **9つのカスタムFixtures**: Page Objects, Components, Test Dataを自動注入
+- 📝 **40メソッドのステップ定義**: 全てDI化、手動インスタンス化なし
+- ✅ **29テストシナリオ**: 28成功, 1スキップ（意図的）
+- 📄 **10 Feature files**: 認証、カート、カタログ、共通、TypeScript固有機能
+
 **ts-pom-bddとの違い:**
 - ✅ **全てのステップ定義でDI (Fixtures)を使用**
 - ✅ **`new XxxPage(page)` のような手動インスタンス化が不要**
@@ -93,13 +99,12 @@ npm run test -- --grep "@cart"
 
 ## Dependency Injection (Fixtures) とは
 
-### 9つのFixtures
+### カスタムFixtures（9つ）
 
-このパッケージでは、以下の9つのFixturesを提供しています:
+このパッケージでは、以下のカスタムFixturesを定義しています:
 
 | Fixture | 型 | 説明 |
 |---------|-----|------|
-| `page` | `Page` | 標準のPlaywright Page (playwright-bddから提供) |
 | `authenticatedPage` | `Page` | 自動ログイン済みのPage |
 | `basePage` | `BasePage` | 基本ページオブジェクト |
 | `loginPage` | `LoginPage` | ログインページオブジェクト |
@@ -109,6 +114,8 @@ npm run test -- --grep "@cart"
 | `cartComponent` | `CartComponent` | カートコンポーネント |
 | `productData` | `typeof ProductData` | 商品データ (価格情報など) |
 | `testData` | `typeof TestData` | テストデータ (ユーザー情報など) |
+
+**注:** 標準の`page` fixtureはplaywright-bddから自動的に提供されます。
 
 ### Fixturesの定義
 
@@ -130,12 +137,20 @@ export const test = base.extend<TestFixtures>({
   },
 
   // Page Objectの自動生成
-  catalogPage: async ({ authenticatedPage }, use) => {
-    await use(new CatalogPage(authenticatedPage));
+  catalogPage: async ({ page }, use) => {
+    await use(new CatalogPage(page));
   },
 
-  cartComponent: async ({ authenticatedPage }, use) => {
-    await use(new CartComponent(authenticatedPage));
+  cartComponent: async ({ page }, use) => {
+    await use(new CartComponent(page));
+  },
+
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+
+  headerComponent: async ({ page }, use) => {
+    await use(new HeaderComponent(page));
   },
 
   // ... 他のFixtures
@@ -184,19 +199,22 @@ When('{string}をカートに追加する',
 
 ### Fixturesの依存関係
 
+Fixturesは他のFixturesに依存できます:
+
 ```typescript
-// catalogPageはauthenticatedPageに依存
-catalogPage: async ({ authenticatedPage }, use) => {
-  await use(new CatalogPage(authenticatedPage));
+// catalogPageはpageに依存
+catalogPage: async ({ page }, use) => {
+  await use(new CatalogPage(page));
 },
 
-// cartComponentもauthenticatedPageに依存
-cartComponent: async ({ authenticatedPage }, use) => {
-  await use(new CartComponent(authenticatedPage));
-},
+// authenticatedPageを使うテスト用のFixture例
+// catalogPage自体はpageに依存し、柔軟に使える設計
 ```
 
-これにより、`catalogPage`や`cartComponent`を使用するステップでは、自動的にログイン済みの状態が保証されます。
+**ポイント:**
+- `catalogPage`や`cartComponent`は標準の`page`に依存 → 柔軟な使用が可能
+- `authenticatedPage`は自動ログイン済み → ログインが必要なテストで使用
+- テスト内で必要なFixturesを組み合わせて使用できる
 
 ## テストケース一覧
 
@@ -251,9 +269,9 @@ cartComponent: async ({ authenticatedPage }, use) => {
 
 ### 1. コード量の削減
 
-**変更前 (ts-pom-bdd)**: 37箇所で `new XxxPage(page)` を記述
+**変更前 (ts-pom-bdd)**: 40メソッド中、多数で `new XxxPage(page)` を記述
 ```typescript
-// 40個のステップ定義で毎回newが必要
+// ステップ定義で毎回newが必要
 When('...', async ({ page }) => {
   const catalogPage = new CatalogPage(page);  // 1回目
   await catalogPage.addToCart(...);
@@ -263,14 +281,14 @@ When('...', async ({ page }) => {
   const catalogPage = new CatalogPage(page);  // 2回目
   await catalogPage.searchProduct(...);
 });
-// ... 38回繰り返し
+// ... 繰り返し
 ```
 
 **変更後 (ts-pom-bdd-di)**: Fixture定義に1回のみ
 ```typescript
 // fixtures/test-fixtures.ts で1回だけ定義
-catalogPage: async ({ authenticatedPage }, use) => {
-  await use(new CatalogPage(authenticatedPage));
+catalogPage: async ({ page }, use) => {
+  await use(new CatalogPage(page));
 },
 
 // ステップ定義では自動注入
@@ -282,7 +300,7 @@ When('...', async ({ catalogPage }) => {
 ### 2. 保守性の向上
 
 Page Object作成方法を変更する場合:
-- **変更前**: 37箇所すべてを修正
+- **変更前**: 複数箇所すべてを修正
 - **変更後**: Fixture定義の1箇所のみ修正
 
 ### 3. テストデータの一元管理
@@ -370,11 +388,21 @@ Feature: カートに追加機能
     And カートの合計が0円より大きい
 ```
 
+## テスト実行結果
+
+```
+✅ 28 passed
+⏹️  1 skipped (新規登録: バックエンドなしのため)
+⏱️ 17.0s
+```
+
+全29シナリオ中28シナリオが成功し、DI化が正常に機能していることを確認済みです。
+
 ## 注意事項
 
 - **デモモード**: バックエンドサーバーがないため、新規登録は動作しません（@skip タグ付き）
 - **ログイン情報**: demo / Demo@2025! でデモモードログイン可能
-- **テスト実行順序**: `workers: 1` で直列実行（状態共有のため）
+- **Visual Regressionテスト**: headedモードとheadlessモードでスクリーンショットが異なる場合があります（ブラウザの描画差異）
 
 ## 参考リンク
 
