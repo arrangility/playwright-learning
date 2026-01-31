@@ -18,6 +18,7 @@ playwright-learning/
     ├── ts-bdd/              # TypeScript BDD tests
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
     ├── ts-pom-bdd-di/       # TypeScript BDD + POM + Dependency Injection (Fixtures)
+    ├── ts-bdd-soft-assertion/ # TypeScript BDD + Soft Assertions patterns
     ├── ts-api/              # TypeScript API tests (REST & GraphQL)
     ├── java-basic/          # Java basic tests
     └── java-pom-bdd/        # Java BDD + Page Object Model
@@ -64,6 +65,19 @@ npm run test
 cd packages/ts-pom-bdd-di
 npm install
 npm run test
+```
+
+### TypeScript - BDD + Soft Assertions
+
+```bash
+cd packages/ts-bdd-soft-assertion
+npm install
+npm run test
+
+# Run by category
+npm run test:basic      # Basic patterns
+npm run test:advanced   # Advanced patterns
+npm run test:practical  # Practical use cases
 ```
 
 ### TypeScript - API Tests
@@ -142,6 +156,14 @@ mvn surefire-report:report
 - 29 scenarios (28 passed, 1 skipped as expected)
 - **Key benefits**: Reduced boilerplate, improved maintainability, centralized test data
 - See [ts-pom-bdd-di/README.md](packages/ts-pom-bdd-di/README.md) for details
+
+### ts-bdd-soft-assertion
+- Comprehensive **Soft Assertions** patterns with BDD
+- **3 categories**: Basic, Advanced, Practical use cases
+- **~15 scenarios** demonstrating various `expect.soft()` patterns
+- Same test target: [ShopTodo](https://toasagi.github.io/shoptodo-app/)
+- **Key patterns**: Custom error messages, Hard+Soft combination, Loop iterations, Form validation
+- See [ts-bdd-soft-assertion/README.md](packages/ts-bdd-soft-assertion/README.md) for details
 
 ### ts-api
 - REST API tests (using JSONPlaceholder)
