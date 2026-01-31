@@ -1,0 +1,20 @@
+{
+  "name": "ts-bdd-soft-assertion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Comprehensive Soft Assertions patterns with BDD + Playwright TypeScript",
+  "scripts": {
+    "test": "bddgen && playwright test",
+    "test:headed": "bddgen && playwright test --headed",
+    "test:basic": "bddgen && playwright test --grep @basic",
+    "test:advanced": "bddgen && playwright test --grep @advanced",
+    "test:practical": "bddgen && playwright test --grep @practical",
+    "test:debug": "bddgen && playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "playwright-bdd": "^7.0.0",
+    "typescript": "^5.3.0"
+  }
+}

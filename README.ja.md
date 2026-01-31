@@ -15,6 +15,7 @@ playwright-learning/
     ├── ts-bdd/              # TypeScript BDDテスト
     ├── ts-pom-bdd/          # TypeScript BDD + Page Object Model
     ├── ts-pom-bdd-di/       # TypeScript BDD + POM + 依存性注入（Fixtures）
+    ├── ts-bdd-soft-assertion/ # TypeScript BDD + Soft Assertionsパターン
     ├── ts-api/              # TypeScript APIテスト（REST & GraphQL）
     ├── java-basic/          # Java基本テスト
     └── java-pom-bdd/        # Java BDD + Page Object Model
@@ -61,6 +62,19 @@ npm run test
 cd packages/ts-pom-bdd-di
 npm install
 npm run test
+```
+
+### TypeScript - BDD + Soft Assertions
+
+```bash
+cd packages/ts-bdd-soft-assertion
+npm install
+npm run test
+
+# カテゴリ別実行
+npm run test:basic      # 基本パターン
+npm run test:advanced   # 高度なパターン
+npm run test:practical  # 実践的ユースケース
 ```
 
 ### TypeScript - APIテスト
@@ -139,6 +153,14 @@ mvn surefire-report:report
 - 29シナリオ（28成功、1スキップ：想定通り）
 - **主なメリット**: ボイラープレート削減、保守性向上、テストデータの一元管理
 - 詳細は [ts-pom-bdd-di/README.md](packages/ts-pom-bdd-di/README.md) を参照
+
+### ts-bdd-soft-assertion
+- BDDによる包括的な**Soft Assertions**パターン
+- **3カテゴリ**: 基本、高度、実践的ユースケース
+- **約15シナリオ**で様々な `expect.soft()` パターンを実演
+- 同じテスト対象: [ShopTodo](https://toasagi.github.io/shoptodo-app/)
+- **主なパターン**: カスタムエラーメッセージ、Hard+Soft組み合わせ、ループ内検証、フォームバリデーション
+- 詳細は [ts-bdd-soft-assertion/README.md](packages/ts-bdd-soft-assertion/README.md) を参照
 
 ### ts-api
 - REST API テスト（JSONPlaceholder使用）
